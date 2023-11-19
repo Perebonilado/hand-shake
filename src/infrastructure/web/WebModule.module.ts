@@ -9,7 +9,6 @@ import { jwtToken } from 'src/constants';
     JwtModule.register({
       global: true,
       secret: jwtToken /* save in env eventually*/,
-      signOptions: { expiresIn: '60s' },
     }),
     QueryModule,
   ],
