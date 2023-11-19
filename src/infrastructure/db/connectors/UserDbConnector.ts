@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserModel } from '../models/UserModel';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class UserDbConnector {
@@ -11,9 +12,16 @@ export class UserDbConnector {
     }
   }
 
-  async findOne(email: string): Promise<UserModel> {
+  async findOne(email?: string, username?: string): Promise<UserModel> {
     try {
-      return await UserModel.findOne({ where: { email } });
+      return await UserModel.findOne({
+        where: {
+          [Op.or]: {
+            email: email || '',
+            username: username || '',
+          },
+        },
+      });
     } catch (error) {
       throw new HttpException(
         `Unable to find user with email ${email}`,
