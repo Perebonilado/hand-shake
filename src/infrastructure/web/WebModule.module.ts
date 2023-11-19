@@ -4,6 +4,7 @@ import { QueryModule } from 'src/query/QueryModule.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtToken } from 'src/constants';
 import { BusinessModule } from 'src/business/Business.module';
+import { AuthService } from './auth/services/AuthService';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { BusinessModule } from 'src/business/Business.module';
     QueryModule,
     BusinessModule
   ],
-  providers: [],
+  providers: [AuthService],
   controllers: [UserController],
 })
 export class WebModule {}

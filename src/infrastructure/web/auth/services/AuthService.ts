@@ -2,6 +2,7 @@ import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { UserQueryService } from 'src/query/services/UserQueryService';
 import { verifyPassword } from 'src/utils';
 import { JwtService } from '@nestjs/jwt';
+import { LoginUserDto } from 'src/dto/LoginUserDto';
 
 @Injectable()
 export class AuthService {
@@ -10,10 +11,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(email: string, password: string) {
-    const user = await this.userQueryService.findOne(email);
+  async signIn(payload: LoginUserDto) {
+    const user = await this.userQueryService.findOne(payload.email);
 
-    if (verifyPassword(password, user.password)) {
+    if (verifyPassword(payload.password, user.password)) {
       const { id, username } = user;
       const payload = {
         sub: id,
