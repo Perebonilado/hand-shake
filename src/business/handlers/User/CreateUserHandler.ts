@@ -33,7 +33,7 @@ export class CreateUserHandler
       }
     } catch (error) {
       throw new HttpException(
-        'failed to handle user creation request',
+        `Failed to handle user creation request: ${error.message}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

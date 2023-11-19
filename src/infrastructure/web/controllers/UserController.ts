@@ -5,17 +5,22 @@ import {
   HttpStatus,
   Inject,
   Post,
+  UseGuards,
+  Get
 } from '@nestjs/common';
 import { CreateUserHandler } from 'src/business/handlers/User/CreateUserHandler';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { LoginUserDto } from 'src/dto/LoginUserDto';
 import { AuthService } from '../auth/services/AuthService';
+import { AuthGuard } from '../auth/guards/AuthGuard';
+import { UserQueryService } from 'src/query/services/UserQueryService';
 
 @Controller('user')
 export class UserController {
   constructor(
     @Inject(CreateUserHandler) private createUserHandler: CreateUserHandler,
     @Inject(AuthService) private authService: AuthService,
+    @Inject(UserQueryService) private userQueryService: UserQueryService
   ) {}
 
   @Post('/create')
@@ -23,7 +28,7 @@ export class UserController {
     try {
       return await this.createUserHandler.handle({ data: user });
     } catch (error) {
-      throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
+      throw new HttpException(`Error creating user: ${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -32,7 +37,13 @@ export class UserController {
     try {
       return await this.authService.signIn(loginUserDto);
     } catch (error) {
-      throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
+      throw new HttpException(`Login failed: ${error.message}`, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/retrieve-one')
+  async getUser(){
+    return await this.userQueryService.findOne('', 'mylohebron_')
   }
 }

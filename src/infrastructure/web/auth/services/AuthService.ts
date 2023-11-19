@@ -13,22 +13,30 @@ export class AuthService {
 
   async signIn(payload: LoginUserDto) {
     const user = await this.userQueryService.findOne(payload.email);
+    if (user) {
+      const isMatch = await verifyPassword(payload.password, user.password);
 
-    if (verifyPassword(payload.password, user.password)) {
-      const { id, username } = user;
-      const payload = {
-        sub: id,
-        username,
-      };
+      if (isMatch) {
+        const { id, username } = user;
+        const payload = {
+          sub: id,
+          username,
+        };
 
-      return {
-        status: HttpStatus.OK,
-        accessToken: await this.jwtService.signAsync(payload),
-        message: 'Successful',
-      };
+        return {
+          status: HttpStatus.OK,
+          accessToken: await this.jwtService.signAsync(payload),
+          message: 'Successful',
+        };
+      } else {
+        throw new HttpException(
+          'Wrong email/password combination',
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
     } else {
       throw new HttpException(
-        'Wrong email/password combination',
+        'User does not exist with this email',
         HttpStatus.UNAUTHORIZED,
       );
     }

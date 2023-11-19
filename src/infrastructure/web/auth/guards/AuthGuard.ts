@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
 
     if (!token) {
       throw new HttpException(
-        'No bearer token passed',
+        `No bearer token passed`,
         HttpStatus.UNAUTHORIZED,
       );
     }
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
 
       request['user'] = payload;
     } catch (error) {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(`Invalid token: ${error.message}`, HttpStatus.UNAUTHORIZED);
     }
 
     return true;

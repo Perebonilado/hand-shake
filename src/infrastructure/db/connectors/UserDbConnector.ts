@@ -8,7 +8,7 @@ export class UserDbConnector {
     try {
       return await UserModel.findAll();
     } catch (error) {
-      throw new HttpException('Unable to retrieve users', HttpStatus.NOT_FOUND);
+      throw new HttpException(`Unable to retrieve users: ${error.message}`, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -24,7 +24,7 @@ export class UserDbConnector {
       });
     } catch (error) {
       throw new HttpException(
-        `Unable to find user with email ${email}`,
+        `Unable to find user: ${error.message}`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -36,7 +36,7 @@ export class UserDbConnector {
     } catch (error) {
       console.log(error)
       throw new HttpException(
-        'Failed to save user to database',
+        `Failed to save user to database: ${error.message}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

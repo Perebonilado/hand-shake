@@ -26,7 +26,7 @@ export class UserSequalizeRepository implements UserRepository {
       return await this.userDbConnector.create(newUser);
     } catch (error) {
       throw new HttpException(
-        'Failure saving user to db',
+        `Failure saving user to db: ${error.message}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
