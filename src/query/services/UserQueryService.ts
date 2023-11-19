@@ -11,4 +11,8 @@ export class UserQueryService {
   async findAll(): Promise<UserModel[]> {
     return await this.userDbConnector.findAll();
   }
+
+  async findOne(email: string) {
+    return await this.userDbConnector.findOne(email)
+  }
 }
