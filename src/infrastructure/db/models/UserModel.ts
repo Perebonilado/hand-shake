@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
-import dayjs from 'dayjs';
+import { RolesEnum } from 'src/infrastructure/web/models/Roles';
 
 @Table({ tableName: 'users' })
 export class UserModel extends Model<UserModel> {
@@ -41,6 +41,14 @@ export class UserModel extends Model<UserModel> {
     unique: true,
   })
   email: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    field: 'role',
+    unique: true,
+  })
+  role: RolesEnum;
 
   
   @Column({
