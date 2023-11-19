@@ -1,5 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { UserModel } from '../models/UserModel';
+import { DeliverablesModel } from '../models/DeliverablesModel';
+import { InvitationsModel } from '../models/InvitationsModel';
 
 export let sequelize: Sequelize;
 
@@ -19,7 +21,9 @@ export const databaseProviders = [
                 define: { timestamps: false }
             });
             sequelize.addModels([
-                UserModel
+                UserModel,
+                DeliverablesModel,
+                InvitationsModel
             ])
             return sequelize
         }
