@@ -9,7 +9,6 @@ import {
 import { CreateUserHandler } from 'src/business/handlers/User/CreateUserHandler';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { LoginUserDto } from 'src/dto/LoginUserDto';
-import { UserQueryService } from 'src/query/services/UserQueryService';
 import { AuthService } from '../auth/services/AuthService';
 
 @Controller('user')
