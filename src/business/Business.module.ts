@@ -3,10 +3,19 @@ import { QueryModule } from 'src/query/QueryModule.module';
 import { CreateUserHandler } from './handlers/User/CreateUserHandler';
 import { RepositoryModule } from 'src/infrastructure/repository/RepositoryModule.module';
 import { CreateDeliverableHandler } from './handlers/DeliverablesHandler/CreateDeliverableHandler';
+import { CreateInvitationHandler } from './handlers/InviteHandler/CreateInvitationHandler';
 
 @Module({
   imports: [QueryModule, RepositoryModule],
-  providers: [CreateUserHandler, CreateDeliverableHandler],
-  exports: [CreateUserHandler, CreateDeliverableHandler],
+  providers: [
+    CreateUserHandler,
+    CreateDeliverableHandler,
+    CreateInvitationHandler,
+  ],
+  exports: [
+    CreateUserHandler,
+    CreateDeliverableHandler,
+    CreateInvitationHandler,
+  ],
 })
 export class BusinessModule {}

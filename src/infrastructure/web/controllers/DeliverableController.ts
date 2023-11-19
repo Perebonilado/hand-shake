@@ -12,16 +12,23 @@ import { Request } from 'express';
 import { AuthGuard } from '../auth/guards/AuthGuard';
 import { VerifiedToken } from '../models/VerifiedToken';
 import { UserQueryService } from 'src/query/services/UserQueryService';
+import { CreateDeliverableHandler } from 'src/business/handlers/DeliverablesHandler/CreateDeliverableHandler';
+import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
 
 @Controller('deliverable')
 export class DeliverableController {
   constructor(
     @Inject(UserQueryService) private userQueryService: UserQueryService,
+    @Inject(CreateDeliverableHandler)
+    private createDeliverableHandler: CreateDeliverableHandler,
   ) {}
 
   @UseGuards(AuthGuard)
   @Post('/create')
-  async createDeliverable(@Req() request: Request) {
+  async createDeliverable(
+    @Req() request: Request,
+    @Body() payload: CreateDeliverableDto,
+  ) {
     try {
       // create deliverable handler
       const userToken = request['user'] as VerifiedToken;
@@ -30,10 +37,12 @@ export class DeliverableController {
         '',
         userToken.username,
       );
-      
-      if(deliverableCreator){
-        
-      } else throw new HttpException('user not found', HttpStatus.NOT_FOUND)
+
+      if (deliverableCreator) {
+        return await this.createDeliverableHandler.handle({
+          data: { ...payload, createdBy: deliverableCreator.id },
+        });
+      } else throw new HttpException('user not found', HttpStatus.NOT_FOUND);
 
       return deliverableCreator;
     } catch (error) {

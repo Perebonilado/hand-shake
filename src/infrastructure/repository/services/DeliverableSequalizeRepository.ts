@@ -16,7 +16,17 @@ export class DeliverableSequalizeRepository implements DeliverableRepository {
   ): Promise<DeliverablesModel> {
     try {
       const deliverable = {
-        ...payload,
+        title: payload.title,
+        description: payload.description,
+        dueDate: payload.dueDate,
+        status: payload.status,
+        createdBy: payload.createdBy,
+        createdOn: new Date(),
+        modifiedBy: payload.modifiedBy,
+        modifiedOn: payload.modifiedOn,
+        isDisputed: false,
+        dependant: payload.dependant,
+        price: payload.price,
       } as DeliverablesModel;
 
       return await this.deliverableDbConnector.create(deliverable);
