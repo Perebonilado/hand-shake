@@ -14,7 +14,7 @@ export class UserQueryService {
     } catch (error) {
       throw new HttpException(
         `Failed to retrieve users: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        HttpStatus.NOT_FOUND,
       );
     }
   }
@@ -25,7 +25,18 @@ export class UserQueryService {
     } catch (error) {
       throw new HttpException(
         `Failed to retrieve user: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
+  public async findById(id: number) {
+    try {
+      return await UserModel.findOne({ where: { id } });
+    } catch (error) {
+      throw new HttpException(
+        `Failed to retrieve user by id, ${id}: ${error.message}`,
+        HttpStatus.NOT_FOUND,
       );
     }
   }

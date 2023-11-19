@@ -18,7 +18,6 @@ export class InvitationSequalizeRepository implements InvitationRepository {
     try {
       const invitation_ = {
         sentTo: invitation.sentTo,
-        deliverable: invitation.deliverable,
         status: InvitationStatusEnum.pending,
         createdBy: invitation.createdBy,
         createdOn: new Date(),

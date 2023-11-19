@@ -4,12 +4,13 @@ import {
   Model,
   DataType,
   ForeignKey,
+  HasOne,
 } from 'sequelize-typescript';
 import { UserModel } from './UserModel';
 import { DeliverablesModel } from './DeliverablesModel';
 import { InvitationStatusEnum } from 'src/infrastructure/web/models/InvitationStatusEnum';
 
-@Table({ tableName: 'invitations ' })
+@Table({ tableName: 'invitations' })
 export class InvitationsModel extends Model<InvitationsModel> {
   @Column({
     type: DataType.BIGINT,
@@ -27,14 +28,6 @@ export class InvitationsModel extends Model<InvitationsModel> {
     type: DataType.BOOLEAN,
   })
   sentTo: boolean;
-
-  @ForeignKey(()=>DeliverablesModel)
-  @Column({
-    field: 'deliverable',
-    allowNull: false,
-    type: DataType.BIGINT
-  })
-  deliverable: number
 
   @Column({
     field: 'status',

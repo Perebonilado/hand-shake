@@ -4,9 +4,10 @@ export interface CreateDeliverableDto {
   title: string;
   description?: string;
   dueDate: Date;
-  status: StatusEnum;
   dependant: number,
   price: number
+  invitationId?: number;
+  status?: StatusEnum;
   isDisuputed?: boolean;
   createdBy?: number;
   createdOn?: Date;

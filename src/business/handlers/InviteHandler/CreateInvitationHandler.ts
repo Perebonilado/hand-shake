@@ -20,24 +20,16 @@ export class CreateInvitationHandler
     request: CreateInvitationRequest,
   ): Promise<CreateInvitationResponse> {
     try {
-      const invitationExists =
-        await this.invitationQueryService.findByDeliverableId(
-          request.data.deliverable,
-        );
+      const createdInvitation = await this.invitationRepository.create(
+        request.data,
+      );
 
-      if (!invitationExists) {
-        const createdInvitation = await this.invitationRepository.create(
-          request.data,
-        );
-
-        // send notification
-
-        return { data: createdInvitation };
-      } else
-        throw new HttpException(
-          `Deliverable already exists`,
-          HttpStatus.BAD_REQUEST,
-        );
-    } catch (error) {}
+      return { data: createdInvitation };
+    } catch (error) {
+      throw new HttpException(
+        `Error Creating Invitation: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

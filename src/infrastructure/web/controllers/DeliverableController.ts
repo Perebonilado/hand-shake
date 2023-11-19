@@ -30,7 +30,6 @@ export class DeliverableController {
     @Body() payload: CreateDeliverableDto,
   ) {
     try {
-      // create deliverable handler
       const userToken = request['user'] as VerifiedToken;
 
       const deliverableCreator = await this.userQueryService.findOne(
@@ -38,13 +37,24 @@ export class DeliverableController {
         userToken.username,
       );
 
-      if (deliverableCreator) {
-        return await this.createDeliverableHandler.handle({
-          data: { ...payload, createdBy: deliverableCreator.id },
-        });
-      } else throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+      const dependant = await this.userQueryService.findById(payload.dependant);
 
-      return deliverableCreator;
+      if (deliverableCreator && dependant) {
+        if (deliverableCreator.id !== dependant.id) {
+          return await this.createDeliverableHandler.handle({
+            data: { ...payload, createdBy: deliverableCreator.id },
+          });
+        } else {
+          throw new HttpException(
+            'Cannot create deliverable for yourself',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      } else
+        throw new HttpException(
+          `${!dependant ? 'dependant' : 'user'} not found`,
+          HttpStatus.NOT_FOUND,
+        );
     } catch (error) {
       throw new HttpException(
         `Failed to create deliverable: ${error.message}`,

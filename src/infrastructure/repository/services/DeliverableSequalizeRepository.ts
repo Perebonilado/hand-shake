@@ -3,6 +3,7 @@ import { DeliverableRepository } from 'src/business/repository/DeliverableReposi
 import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
 import { DeliverableDbConnector } from 'src/infrastructure/db/connectors/DeliverableDbConnector';
 import { DeliverablesModel } from 'src/infrastructure/db/models/DeliverablesModel';
+import { StatusEnum } from 'src/infrastructure/web/models/StatusEnum';
 
 @Injectable()
 export class DeliverableSequalizeRepository implements DeliverableRepository {
@@ -19,11 +20,12 @@ export class DeliverableSequalizeRepository implements DeliverableRepository {
         title: payload.title,
         description: payload.description,
         dueDate: payload.dueDate,
-        status: payload.status,
+        status: StatusEnum.inactive,
+        invitationId: payload.invitationId,
         createdBy: payload.createdBy,
         createdOn: new Date(),
-        modifiedBy: payload.modifiedBy,
-        modifiedOn: payload.modifiedOn,
+        modifiedBy: payload.createdBy,
+        modifiedOn: new Date(),
         isDisputed: false,
         dependant: payload.dependant,
         price: payload.price,

@@ -4,9 +4,11 @@ import {
   Model,
   DataType,
   ForeignKey,
+  HasOne,
 } from 'sequelize-typescript';
 import { StatusEnum } from 'src/infrastructure/web/models/StatusEnum';
 import { UserModel } from './UserModel';
+import { InvitationsModel } from './InvitationsModel';
 
 @Table({ tableName: 'deliverables' })
 export class DeliverablesModel extends Model<DeliverablesModel> {
@@ -95,4 +97,12 @@ export class DeliverablesModel extends Model<DeliverablesModel> {
     field: 'price',
   })
   price: number;
+
+  // @ForeignKey(()=>InvitationsModel)
+  // @HasOne(()=>InvitationsModel)
+  @Column({
+    type: DataType.BIGINT,
+    field: 'invitation_id'
+  })
+  invitationId: number
 }
