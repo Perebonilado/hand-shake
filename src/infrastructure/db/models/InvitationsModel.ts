@@ -5,6 +5,7 @@ import {
   DataType,
   ForeignKey,
   HasOne,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { UserModel } from './UserModel';
 import { DeliverablesModel } from './DeliverablesModel';
@@ -12,6 +13,7 @@ import { InvitationStatusEnum } from 'src/infrastructure/web/models/InvitationSt
 
 @Table({ tableName: 'invitations' })
 export class InvitationsModel extends Model<InvitationsModel> {
+
   @Column({
     type: DataType.BIGINT,
     allowNull: false,
@@ -50,4 +52,5 @@ export class InvitationsModel extends Model<InvitationsModel> {
     field: 'created_on',
   })
   createdOn: Date;
+
 }

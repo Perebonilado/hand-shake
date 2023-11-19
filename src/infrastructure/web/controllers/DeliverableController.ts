@@ -7,6 +7,7 @@ import {
   Body,
   Req,
   Inject,
+  Get,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from '../auth/guards/AuthGuard';
@@ -14,6 +15,7 @@ import { VerifiedToken } from '../models/VerifiedToken';
 import { UserQueryService } from 'src/query/services/UserQueryService';
 import { CreateDeliverableHandler } from 'src/business/handlers/DeliverablesHandler/CreateDeliverableHandler';
 import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
+import { DeliverableQueryService } from 'src/query/services/DeliverableQueryService';
 
 @Controller('deliverable')
 export class DeliverableController {
@@ -21,6 +23,8 @@ export class DeliverableController {
     @Inject(UserQueryService) private userQueryService: UserQueryService,
     @Inject(CreateDeliverableHandler)
     private createDeliverableHandler: CreateDeliverableHandler,
+    @Inject(DeliverableQueryService)
+    private deliverableQueryService: DeliverableQueryService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -58,6 +62,42 @@ export class DeliverableController {
     } catch (error) {
       throw new HttpException(
         `Failed to create deliverable: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/retrieve-created')
+  async getCreatedDeliverables(@Req() request: Request) {
+    try {
+      const userToken = request['user'] as VerifiedToken;
+      const user = await this.userQueryService.findOne('', userToken.username);
+
+      return await this.deliverableQueryService.findCreatedDeliverables(
+        user.id,
+      );
+    } catch (error) {
+      throw new HttpException(
+        `Failed to find deliverables created: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/retrieve-dependent')
+  async getDependentDeliverables(@Req() request: Request) {
+    try {
+      const userToken = request['user'] as VerifiedToken;
+      const user = await this.userQueryService.findOne('', userToken.username);
+
+      return await this.deliverableQueryService.findDependentDeliverables(
+        user.id,
+      );
+    } catch (error) {
+      throw new HttpException(
+        `Failed to find deliverables created: ${error.message}`,
         HttpStatus.BAD_REQUEST,
       );
     }

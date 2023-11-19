@@ -11,6 +11,6 @@ import { InvitationDbConnector } from './connectors/InvitationDbConnector';
     DeliverableDbConnector,
     InvitationDbConnector,
   ],
-  exports: [UserDbConnector, DeliverableDbConnector, InvitationDbConnector],
+  exports: [ ...databaseProviders,UserDbConnector, DeliverableDbConnector, InvitationDbConnector],
 })
 export class DatabaseModule {}

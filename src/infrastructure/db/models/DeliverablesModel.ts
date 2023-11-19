@@ -5,6 +5,7 @@ import {
   DataType,
   ForeignKey,
   HasOne,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { StatusEnum } from 'src/infrastructure/web/models/StatusEnum';
 import { UserModel } from './UserModel';
@@ -98,11 +99,13 @@ export class DeliverablesModel extends Model<DeliverablesModel> {
   })
   price: number;
 
-  // @ForeignKey(()=>InvitationsModel)
-  // @HasOne(()=>InvitationsModel)
+  @ForeignKey(()=>InvitationsModel)
   @Column({
     type: DataType.BIGINT,
     field: 'invitation_id'
   })
   invitationId: number
+
+  @BelongsTo(()=>InvitationsModel)
+  invitation: InvitationsModel
 }
