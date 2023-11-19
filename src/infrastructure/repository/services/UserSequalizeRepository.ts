@@ -20,6 +20,7 @@ export class UserSequalizeRepository implements UserRepository {
         email: user.email,
         password: await hashPassword(user.password),
         username: user.username,
+        createdOn: new Date()
       } as UserModel;
 
       return await this.userDbConnector.create(newUser);

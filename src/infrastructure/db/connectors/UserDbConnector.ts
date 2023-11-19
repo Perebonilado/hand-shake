@@ -34,6 +34,7 @@ export class UserDbConnector {
     try {
       return await UserModel.create(user);
     } catch (error) {
+      console.log(error)
       throw new HttpException(
         'Failed to save user to database',
         HttpStatus.INTERNAL_SERVER_ERROR,
