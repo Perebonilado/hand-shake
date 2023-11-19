@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtToken } from 'src/constants';
 import { BusinessModule } from 'src/business/Business.module';
 import { AuthService } from './auth/services/AuthService';
+import { DeliverableController } from './controllers/DeliverableController';
 
 @Module({
   imports: [
@@ -13,9 +14,9 @@ import { AuthService } from './auth/services/AuthService';
       secret: jwtToken /* save in env eventually*/,
     }),
     QueryModule,
-    BusinessModule
+    BusinessModule,
   ],
   providers: [AuthService],
-  controllers: [UserController],
+  controllers: [UserController, DeliverableController],
 })
 export class WebModule {}

@@ -1,8 +1,8 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { UserRepository } from 'src/business/repository/UserRepository';
 import { RequestTemplate } from 'src/business/request-template/RequestTemplate';
-import { CreateUserRequest } from 'src/business/request-template/User/CreateUserRequest';
-import { CreateUserResponse } from 'src/business/request-template/User/CreateUserResponse';
-import { UserSequalizeRepository } from 'src/infrastructure/repository/services/UserSequalizeRepository';
+import { CreateUserRequest } from 'src/business/request/CreateUserRequest';
+import { CreateUserResponse } from 'src/business/response/CreateUserResponse';
 import { UserQueryService } from 'src/query/services/UserQueryService';
 
 @Injectable()
@@ -11,8 +11,8 @@ export class CreateUserHandler
 {
   constructor(
     @Inject(UserQueryService) private userQueryService: UserQueryService,
-    @Inject(UserSequalizeRepository)
-    private userRepository: UserSequalizeRepository,
+    @Inject(UserRepository)
+    private userRepository: UserRepository,
   ) {}
 
   public async handle(request: CreateUserRequest): Promise<CreateUserResponse> {

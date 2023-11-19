@@ -41,9 +41,4 @@ export class UserController {
     }
   }
 
-  @UseGuards(AuthGuard)
-  @Get('/retrieve-one')
-  async getUser(){
-    return await this.userQueryService.findOne('', 'mylohebron_')
-  }
 }

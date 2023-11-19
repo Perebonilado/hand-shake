@@ -3,6 +3,7 @@ import { UserQueryService } from 'src/query/services/UserQueryService';
 import { verifyPassword } from 'src/utils';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from 'src/dto/LoginUserDto';
+import { VerifiedToken } from '../../models/VerifiedToken';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
 
       if (isMatch) {
         const { id, username } = user;
-        const payload = {
+        const payload: VerifiedToken = {
           sub: id,
           username,
         };
