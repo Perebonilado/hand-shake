@@ -29,4 +29,15 @@ export class UserDbConnector {
       );
     }
   }
+
+  async create(user: UserModel) {
+    try {
+      return await UserModel.create(user);
+    } catch (error) {
+      throw new HttpException(
+        'Failed to save user to database',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

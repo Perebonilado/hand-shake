@@ -12,7 +12,7 @@ export class UserQueryService {
     return await this.userDbConnector.findAll();
   }
 
-  async findOne(email: string) {
-    return await this.userDbConnector.findOne(email)
+  async findOne(email: string, username?: string) {
+    return await this.userDbConnector.findOne(email, username)
   }
 }
