@@ -5,22 +5,17 @@ import {
   HttpStatus,
   Inject,
   Post,
-  UseGuards,
-  Get
 } from '@nestjs/common';
 import { CreateUserHandler } from 'src/business/handlers/User/CreateUserHandler';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { LoginUserDto } from 'src/dto/LoginUserDto';
 import { AuthService } from '../auth/services/AuthService';
-import { AuthGuard } from '../auth/guards/AuthGuard';
-import { UserQueryService } from 'src/query/services/UserQueryService';
 
 @Controller('user')
 export class UserController {
   constructor(
     @Inject(CreateUserHandler) private createUserHandler: CreateUserHandler,
     @Inject(AuthService) private authService: AuthService,
-    @Inject(UserQueryService) private userQueryService: UserQueryService
   ) {}
 
   @Post('/create')
