@@ -6,6 +6,7 @@ import { jwtToken } from 'src/constants';
 import { BusinessModule } from 'src/business/Business.module';
 import { AuthService } from './auth/services/AuthService';
 import { DeliverableController } from './controllers/DeliverableController';
+import { IntegrationModule } from 'src/integration/IntegrationModule.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DeliverableController } from './controllers/DeliverableController';
     }),
     QueryModule,
     BusinessModule,
+    IntegrationModule,
   ],
   providers: [AuthService],
   controllers: [UserController, DeliverableController],
