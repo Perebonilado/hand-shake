@@ -1,0 +1,10 @@
+{
+  "local": {
+    "baseUrl": "http://localhost:3000",
+    "jsonWebToken": "jkdbjsbfsdee__^273",
+    "paystack": {
+      "baseUrl": "https://api.paystack.co/charge",
+      "secret": ""
+    }
+  }
+}

@@ -1,23 +1,28 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import {
+  MetaDataModel,
   PayWithTransferModel,
   PayWithTransferPayloadModel,
 } from 'src/infrastructure/web/models/Paystack';
 import { PayWithTransferDto } from 'src/dto/PayStack.dto';
+import EnvironmentVars from 'EnvironmentVars';
 
 @Injectable()
 export class PaystackPaymentChannels {
   constructor(@Inject(HttpService) private httpService: HttpService) {}
 
-  baseUrl = 'https://api.paystack.co/charge';
+  private baseUrl = EnvironmentVars.config.paystack.baseUrl;
+  private secretKey = EnvironmentVars.config.paystack.secret;
 
   public async payWithTransfer(): Promise<PayWithTransferModel> {
     try {
       const response = await this.httpService.axiosRef.get<
-        PayWithTransferPayloadModel,
+        PayWithTransferPayloadModel<MetaDataModel>,
         PayWithTransferDto
-      >(this.baseUrl, {headers: {Authorization: `Bearer --token--`}});
+      >(this.baseUrl, {
+        headers: { Authorization: `Bearer ${this.secretKey}` },
+      });
 
       const {
         account_expires_at,
@@ -45,4 +50,9 @@ export class PaystackPaymentChannels {
       );
     }
   }
+
+  /* create handlers to handle success or error and return the correct payload  
+  in order to call a handler on success within a controller or send an email on 
+  failrure
+  **/
 }

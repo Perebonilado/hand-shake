@@ -4,6 +4,7 @@ import { IntegrationModule } from './integration/IntegrationModule.module';
 import { DatabaseModule } from './infrastructure/db/DatabaseModule.module';
 import { RepositoryModule } from './infrastructure/repository/RepositoryModule.module';
 import { WebModule } from './infrastructure/web/WebModule.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -11,7 +12,10 @@ import { WebModule } from './infrastructure/web/WebModule.module';
     IntegrationModule,
     DatabaseModule,
     RepositoryModule,
-    WebModule
+    WebModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env'
+    })
   ],
 })
 export class AppModule {}

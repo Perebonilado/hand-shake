@@ -1,9 +1,10 @@
-export interface PayWithTransferPayloadModel {
+export interface PayWithTransferPayloadModel<T> {
   email: string;
   amount: string;
   bank_transfer: {
     account_expires_at: string;
   };
+  metaData: T;
 }
 
 export interface PayWithTransferModel {
@@ -13,5 +14,9 @@ export interface PayWithTransferModel {
   amount: number;
   reference: string;
   status: string;
-  bankName: string
+  bankName: string;
+}
+
+export interface MetaDataModel {
+  deliverableId: string
 }
