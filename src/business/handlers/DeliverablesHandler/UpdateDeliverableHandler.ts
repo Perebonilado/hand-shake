@@ -41,19 +41,31 @@ export class UpdateDeliverableHandler
         );
       }
 
-      if (request.data.status != StatusEnum.inactive) {
+      if (existingDeliverable.status != StatusEnum.inactive) {
         throw new HttpException(
           'You may only update a deliverable that has not been accepted by a dependant',
           HttpStatus.BAD_REQUEST,
         );
       }
 
-      const deliverableToUpdate = {
-        ...existingDeliverable,
+      const deliverableToUpdate: UpdateDeliverableDto = {
+        id: existingDeliverable.id,
         title: request.data.title,
+        price: request.data.price,
         description: request.data.description,
-        dueDate: request.data.dueDate,
-      } as unknown as UpdateDeliverableDto;
+        dueDate: existingDeliverable.dueDate,
+        status: existingDeliverable.status,
+        createdBy: existingDeliverable.createdBy,
+        createdOn: existingDeliverable.createdOn,
+        modifiedBy: existingDeliverable.modifiedBy,
+        modifiedOn: existingDeliverable.modifiedOn,
+        isDisputed: existingDeliverable.isDisputed,
+        dependant: existingDeliverable.dependant,
+        invitationId: existingDeliverable.invitationId,
+        requiresConfirmation: existingDeliverable.requiresConfirmation,
+        inviteAccepted: existingDeliverable.inviteAccepted,
+        isConfirmed: existingDeliverable.isConfirmed,
+      }
 
       return {
         data: await this.deliverableRepository.update(deliverableToUpdate),

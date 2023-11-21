@@ -37,7 +37,7 @@ export class DeliverableDbConnector {
       }
     } catch (error) {
       throw new HttpException(
-        `Error saving deliverable with id ${deliverable.id} to db`,
+        error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

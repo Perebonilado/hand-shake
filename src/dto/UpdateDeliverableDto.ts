@@ -14,7 +14,7 @@ export interface UpdateDeliverableDto {
   dependant: number;
   price: number;
   invitationId: number;
-  requiresConfrimation: boolean;
+  requiresConfirmation: boolean;
   inviteAccepted: boolean;
   isConfirmed: boolean;
 }
