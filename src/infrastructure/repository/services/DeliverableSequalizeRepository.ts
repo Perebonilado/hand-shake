@@ -45,7 +45,6 @@ export class DeliverableSequalizeRepository implements DeliverableRepository {
     payload: UpdateDeliverableDto,
   ): Promise<DeliverablesModel> {
     try {
-      console.log(payload)
       const deliverable = {
         id: payload.id,
         title: payload.title,
