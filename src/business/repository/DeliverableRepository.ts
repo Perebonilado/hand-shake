@@ -1,6 +1,13 @@
-import { CreateDeliverableDto } from "src/dto/CreateDeliverableDto";
-import { DeliverablesModel } from "src/infrastructure/db/models/DeliverablesModel";
+import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
+import { UpdateDeliverableDto } from 'src/dto/UpdateDeliverableDto';
+import { DeliverablesModel } from 'src/infrastructure/db/models/DeliverablesModel';
 
 export abstract class DeliverableRepository {
-   abstract create: (payload: CreateDeliverableDto)=>Promise<DeliverablesModel>
+  abstract create: (
+    payload: CreateDeliverableDto,
+  ) => Promise<DeliverablesModel>;
+
+  abstract update: (
+    payload: UpdateDeliverableDto,
+  ) => Promise<DeliverablesModel>;
 }

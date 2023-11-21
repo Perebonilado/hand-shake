@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { DeliverableRepository } from 'src/business/repository/DeliverableRepository';
 import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
+import { UpdateDeliverableDto } from 'src/dto/UpdateDeliverableDto';
 import { DeliverableDbConnector } from 'src/infrastructure/db/connectors/DeliverableDbConnector';
 import { DeliverablesModel } from 'src/infrastructure/db/models/DeliverablesModel';
 import { StatusEnum } from 'src/infrastructure/web/models/StatusEnum';
@@ -35,6 +36,20 @@ export class DeliverableSequalizeRepository implements DeliverableRepository {
     } catch (error) {
       throw new HttpException(
         `Failed to create deliverable: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  public async update(
+    payload: UpdateDeliverableDto,
+  ): Promise<DeliverablesModel> {
+    try {
+      const deliverable = { ...payload } as unknown as DeliverablesModel;
+      return await this.deliverableDbConnector.update(deliverable);
+    } catch (error) {
+      throw new HttpException(
+        'Error updating deliverable',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

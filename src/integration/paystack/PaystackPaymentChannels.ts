@@ -15,12 +15,14 @@ export class PaystackPaymentChannels {
   private baseUrl = EnvironmentVars.config.paystack.baseUrl;
   private secretKey = EnvironmentVars.config.paystack.secret;
 
-  public async payWithTransfer(): Promise<PayWithTransferModel> {
+  public async payWithTransfer(
+    payload: PayWithTransferPayloadModel<MetaDataModel>,
+  ): Promise<PayWithTransferModel> {
     try {
-      const response = await this.httpService.axiosRef.get<
+      const response = await this.httpService.axiosRef.post<
         PayWithTransferPayloadModel<MetaDataModel>,
         PayWithTransferDto
-      >(this.baseUrl, {
+      >(this.baseUrl, payload, {
         headers: { Authorization: `Bearer ${this.secretKey}` },
       });
 
@@ -50,9 +52,4 @@ export class PaystackPaymentChannels {
       );
     }
   }
-
-  /* create handlers to handle success or error and return the correct payload  
-  in order to call a handler on success within a controller or send an email on 
-  failrure
-  **/
 }

@@ -4,6 +4,7 @@ import { CreateUserHandler } from './handlers/User/CreateUserHandler';
 import { RepositoryModule } from 'src/infrastructure/repository/RepositoryModule.module';
 import { CreateDeliverableHandler } from './handlers/DeliverablesHandler/CreateDeliverableHandler';
 import { CreateInvitationHandler } from './handlers/InviteHandler/CreateInvitationHandler';
+import { UpdateDeliverableHandler } from './handlers/DeliverablesHandler/UpdateDeliverableHandler';
 
 @Module({
   imports: [QueryModule, RepositoryModule],
@@ -11,11 +12,13 @@ import { CreateInvitationHandler } from './handlers/InviteHandler/CreateInvitati
     CreateUserHandler,
     CreateDeliverableHandler,
     CreateInvitationHandler,
+    UpdateDeliverableHandler
   ],
   exports: [
     CreateUserHandler,
     CreateDeliverableHandler,
     CreateInvitationHandler,
+    UpdateDeliverableHandler
   ],
 })
 export class BusinessModule {}

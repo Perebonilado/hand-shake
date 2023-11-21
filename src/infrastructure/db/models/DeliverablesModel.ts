@@ -99,6 +99,24 @@ export class DeliverablesModel extends Model<DeliverablesModel> {
   })
   price: number;
 
+  @Column({
+    field: 'requires_confirmation',
+    type: DataType.BOOLEAN
+  })
+  requiresConfirmation: boolean;
+
+  @Column({
+    field: 'is_confirmed',
+    type: DataType.BOOLEAN
+  })
+  isConfirmed: boolean
+
+  @Column({
+    field: 'invite_accepted',
+    type: DataType.BOOLEAN
+  })
+  inviteAccepted: boolean
+
   @ForeignKey(()=>InvitationsModel)
   @Column({
     type: DataType.BIGINT,
