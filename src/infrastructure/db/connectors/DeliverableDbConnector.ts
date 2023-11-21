@@ -1,14 +1,9 @@
-import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { DeliverablesModel } from '../models/DeliverablesModel';
-import { inject } from 'vue';
-import { DeliverableQueryService } from 'src/query/services/DeliverableQueryService';
 
 @Injectable()
 export class DeliverableDbConnector {
-  constructor(
-    @Inject(DeliverableQueryService)
-    private deliverableQueryService: DeliverableQueryService,
-  ) {}
+  constructor() {}
 
   public async create(
     deliverable: DeliverablesModel,
@@ -27,9 +22,9 @@ export class DeliverableDbConnector {
     deliverable: DeliverablesModel,
   ): Promise<DeliverablesModel> {
     try {
-      const existingDeliverable = await this.deliverableQueryService.findById(
-        deliverable.id,
-      );
+      const existingDeliverable = await DeliverablesModel.findOne({
+        where: { id: deliverable.id },
+      });
       if (existingDeliverable) {
         Object.assign(existingDeliverable, deliverable);
 
