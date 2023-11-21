@@ -3,7 +3,6 @@ import { DeliverableRepository } from 'src/business/repository/DeliverableReposi
 import { RequestTemplate } from 'src/business/request-template/RequestTemplate';
 import { UpdateDeliverableRequest } from 'src/business/request/UpdateDeliverableRequest';
 import { UpdateDeliverableResponse } from 'src/business/response/UpdateDeliverableResponse';
-import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
 import { UpdateDeliverableDto } from 'src/dto/UpdateDeliverableDto';
 import { StatusEnum } from 'src/infrastructure/web/models/StatusEnum';
 import { DeliverableQueryService } from 'src/query/services/DeliverableQueryService';
@@ -24,25 +23,25 @@ export class UpdateDeliverableHandler
     request: UpdateDeliverableRequest,
   ): Promise<UpdateDeliverableResponse> {
     try {
-      const deliverable = await this.deliverableQueryService.findById(
-        request.deliverableId,
+      const existingDeliverable = await this.deliverableQueryService.findById(
+        request.data.id,
       );
 
-      if (!deliverable) {
+      if (!existingDeliverable) {
         throw new HttpException(
-          `the deliverable you are trying to update does not exist with id ${request.deliverableId}`,
+          `the deliverable you are trying to update does not exist with id ${request.data.id}`,
           HttpStatus.NOT_FOUND,
         );
       }
 
-      if (deliverable.createdBy != request.userId) {
+      if (existingDeliverable.createdBy != request.userId) {
         throw new HttpException(
           'You may only update a deliverable you created',
           HttpStatus.BAD_REQUEST,
         );
       }
 
-      if (deliverable.status != StatusEnum.inactive) {
+      if (request.data.status != StatusEnum.inactive) {
         throw new HttpException(
           'You may only update a deliverable that has not been accepted by a dependant',
           HttpStatus.BAD_REQUEST,
@@ -50,10 +49,10 @@ export class UpdateDeliverableHandler
       }
 
       const deliverableToUpdate = {
-        ...deliverable,
-        title: request.title,
-        description: request.description,
-        dueDate: request.dueDate,
+        ...existingDeliverable,
+        title: request.data.title,
+        description: request.data.description,
+        dueDate: request.data.dueDate,
       } as unknown as UpdateDeliverableDto;
 
       return {

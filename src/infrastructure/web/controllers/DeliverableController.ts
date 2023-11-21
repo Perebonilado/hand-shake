@@ -8,6 +8,7 @@ import {
   Req,
   Inject,
   Get,
+  Put,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from '../auth/guards/AuthGuard';
@@ -16,6 +17,8 @@ import { UserQueryService } from 'src/query/services/UserQueryService';
 import { CreateDeliverableHandler } from 'src/business/handlers/DeliverablesHandler/CreateDeliverableHandler';
 import { CreateDeliverableDto } from 'src/dto/CreateDeliverableDto';
 import { DeliverableQueryService } from 'src/query/services/DeliverableQueryService';
+import { UpdateDeliverableHandler } from 'src/business/handlers/DeliverablesHandler/UpdateDeliverableHandler';
+import { UpdateDeliverableDto } from 'src/dto/UpdateDeliverableDto';
 
 @Controller('deliverable')
 export class DeliverableController {
@@ -25,6 +28,8 @@ export class DeliverableController {
     private createDeliverableHandler: CreateDeliverableHandler,
     @Inject(DeliverableQueryService)
     private deliverableQueryService: DeliverableQueryService,
+    @Inject(UpdateDeliverableHandler)
+    private updateDeliveryHandler: UpdateDeliverableHandler,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -98,6 +103,28 @@ export class DeliverableController {
     } catch (error) {
       throw new HttpException(
         `Failed to find deliverables created: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('/update')
+  async updateDeliverable(
+    @Req() request: Request,
+    @Body() updateDeliveryDto: UpdateDeliverableDto,
+  ) {
+    try {
+      const userToken = request['user'] as VerifiedToken;
+      const user = await this.userQueryService.findOne('', userToken.username);
+      
+      return await this.updateDeliveryHandler.handle({
+        data: updateDeliveryDto,
+        userId: user.id,
+      });
+    } catch (error) {
+      throw new HttpException(
+        `Failed to update deliverable: ${error.message}`,
         HttpStatus.BAD_REQUEST,
       );
     }
